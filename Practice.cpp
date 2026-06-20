@@ -1,180 +1,103 @@
 #include <iostream>
 using namespace std;
 
-class node {
+class Node {
 public:
     int data;
-    node* next;
+    Node* next;
 
-    node(int val) {
+    Node(int val) {
         data = val;
         next = nullptr;
     }
 };
 
-class sinlylinkedlist {
+class CircularLL {
 public:
-    node* head;
-    node* head2;
-    node* head3;
-    sinlylinkedlist() {
-        head = nullptr;
-        head2=nullptr;
-        head3=nullptr;
-    }
+    Node* head = nullptr;
 
-    void insertAtEnd(int val) {
-        node* newNode = new node(val);
+    // Insert at end
+    void insert(int val) {
+        Node* newNode = new Node(val);
 
         if (head == nullptr) {
             head = newNode;
+            newNode->next = head;
             return;
         }
 
-        node* temp = head;
-        while (temp->next != nullptr) {
-            temp = temp->next;
+        Node* curr = head;
+        while (curr->next != head) {
+            curr = curr->next;
         }
 
-        temp->next = newNode;
+        curr->next = newNode;
+        newNode->next = head;
     }
-    void insertAtEndhead2(int val) {
-        node* newNode = new node(val);
 
-        if (head2 == nullptr) {
-            head2 = newNode;
+    // Display
+    void display() {
+        if (head == nullptr) {
+            cout << "Empty\n";
             return;
         }
 
-        node* temp = head2;
-        while (temp->next != nullptr) {
-            temp = temp->next;
-        }
+        Node* curr = head;
+        do {
+            cout << curr->data << " ";
+            curr = curr->next;
+        } while (curr != head);
 
-        temp->next = newNode;
+        cout << endl;
     }
 
-    void createLoop(int pos) {
+    // Delete by value
+    void deleteNode(int val) {
         if (head == nullptr) return;
 
-        node* loopNode = nullptr;
-        node* temp = head;
-        int count = 1;
+        Node *curr = head, *prev = nullptr;
 
-        while (temp->next != nullptr) {
-            if (count == pos) {
-                loopNode = temp;
-            }
-            temp = temp->next;
-            count++;
-        }
-
-        temp->next = loopNode;
-    }
-
-    void detectloop() {
-        node* slow = head;
-        node* fast = head;
-
-        while (fast != nullptr && fast->next != nullptr) {
-            slow = slow->next;
-            fast = fast->next->next;
-
-            if (slow == fast) {
-                cout << "Loop Detected\n";
+        // Head node deletion
+        if (head->data == val) {
+            if (head->next == head) {
+                delete head;
+                head = nullptr;
                 return;
             }
+
+            Node* tail = head;
+            while (tail->next != head)
+                tail = tail->next;
+
+            tail->next = head->next;
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+            return;
         }
 
-        cout << "No Loop\n";
-    }
-    void delNthfromEnd(int pos){
-     node* curr=head;
-     int index=0;
-     while(curr->next!=nullptr){
-        index++;
-        curr=curr->next;
-     }
-     node* curr2=head;
-     
-     node* del;
-     if(index==pos-1){
-        del=head;
-        head=head->next;
-         delete del;
-        return;
-     }
-     while(index>pos){
-        curr2=curr2->next;
-          index--;
-     };
-     del=curr2->next;
-     curr2->next=curr2->next->next;
-     delete del;
-   
-    }
-void merge() {
-    node* curr1 = head;
-    node* curr2 = head2;
+        do {
+            prev = curr;
+            curr = curr->next;
+        } while (curr != head && curr->data != val);
 
-    head3 = nullptr;
-    node* tail = nullptr;   // ADDED
-
-    while (curr1 != nullptr && curr2 != nullptr) {
-
-        node* temp;         // ADDED
-
-        if (curr1->data < curr2->data) {
-            temp = curr1;   // ADDED
-            curr1 = curr1->next;
-        } else {
-            temp = curr2;   // ADDED
-            curr2 = curr2->next;
+        if (curr != head) {
+            prev->next = curr->next;
+            delete curr;
         }
-
-        temp->next = nullptr;   // ADDED
-
-        if (head3 == nullptr) {
-            head3 = temp;
-            tail = temp;        // ADDED
-        } else {
-            tail->next = temp;  // ADDED
-            tail = temp;        // ADDED
-        }
-    }
-
-    if (curr1 != nullptr) {
-        tail->next = curr1;     // ADDED
-    }
-
-    if (curr2 != nullptr) {
-        tail->next = curr2;     // ADDED
-    }
-}
-    void display(){
-        node* curr=head;
-        while(curr!=nullptr){
-            cout<<curr->data<<" ";
-            curr=curr->next;
-        }
-        cout<<endl;
     }
 };
 
 int main() {
-    sinlylinkedlist l;
+    CircularLL cll;
 
-    l.insertAtEnd(1);
-    l.insertAtEnd(2);
-    l.insertAtEnd(3);
-    l.insertAtEnd(4);
-    l.insertAtEnd(5);
+    cll.insert(10);
+    cll.insert(20);
+    cll.insert(30);
 
-    //l.createLoop(3);   // 5 points to node containing 3
+    cll.display();
 
-   // l.detectloop();
-   l.display();
-   l.delNthfromEnd(3);
-   l.display();
-    return 0;
+    cll.deleteNode(20);
+
+    cll.display();
 }
