@@ -101,15 +101,16 @@ public:
         }
 
         Node* curr = head;
-        Node* prev = nullptr;
+       
 
-        while (curr->next != head) {
-            prev = curr;
+        while (curr->next->next != head) {
+          
             curr = curr->next;
         }
+       Node* del=curr->next;
+          curr->next=del->next;
 
-        prev->next = head;
-        delete curr;
+        delete del;
     }
 
     // Display
