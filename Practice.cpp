@@ -1,33 +1,39 @@
 #include <iostream>
 using namespace std;
 
-class Node {
+class Node
+{
 public:
     int data;
-    Node* next;
+    Node *next;
 
-    Node(int val) {
+    Node(int val)
+    {
         data = val;
         next = nullptr;
     }
 };
 
-class CircularLL {
+class CircularLL
+{
 public:
-    Node* head = nullptr;
+    Node *head = nullptr;
 
     // Insert at end
-    void insert(int val) {
-        Node* newNode = new Node(val);
+    void insert(int val)
+    {
+        Node *newNode = new Node(val);
 
-        if (head == nullptr) {
+        if (head == nullptr)
+        {
             head = newNode;
             newNode->next = head;
             return;
         }
 
-        Node* curr = head;
-        while (curr->next != head) {
+        Node *curr = head;
+        while (curr->next != head)
+        {
             curr = curr->next;
         }
 
@@ -36,14 +42,17 @@ public:
     }
 
     // Display
-    void display() {
-        if (head == nullptr) {
+    void display()
+    {
+        if (head == nullptr)
+        {
             cout << "Empty\n";
             return;
         }
 
-        Node* curr = head;
-        do {
+        Node *curr = head;
+        do
+        {
             cout << curr->data << " ";
             curr = curr->next;
         } while (curr != head);
@@ -52,43 +61,88 @@ public:
     }
 
     // Delete by value
-    void deleteNode(int val) {
-        if (head == nullptr) return;
+    void deleteNode(int val)
+    {
+        if (head == nullptr)
+            return;
 
         Node *curr = head, *prev = nullptr;
 
         // Head node deletion
-        if (head->data == val) {
-            if (head->next == head) {
+        if (head->data == val)
+        {
+            if (head->next == head)
+            {
                 delete head;
                 head = nullptr;
                 return;
             }
 
-            Node* tail = head;
+            Node *tail = head;
             while (tail->next != head)
                 tail = tail->next;
 
             tail->next = head->next;
-            Node* temp = head;
+            Node *temp = head;
             head = head->next;
             delete temp;
             return;
         }
 
-        do {
+        do
+        {
             prev = curr;
             curr = curr->next;
         } while (curr != head && curr->data != val);
 
-        if (curr != head) {
+        if (curr != head)
+        {
             prev->next = curr->next;
             delete curr;
         }
     }
-};
+    Node *head1;
+    Node *head2;
+    void split()
+    {
+        Node *fast = head;
+        Node *slow = head;
+        while (fast->next != head && fast->next->next != head)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        Node *curr = head;
+        while (curr != slow)
+        {
+            cout << curr->data << " ";
+            if (head1 == nullptr)
+            {
+                head1 =head;
+            }
+           
+            curr = curr->next;
+        }
+        
+        Node *curr2 = slow->next;
+        curr->next=nullptr;
+        while (curr2->next != head)
+        {
+            if (head2 == nullptr)
+            {
+                head2 = slow->next;
+            }
+          
+            cout << curr2->data << " ";
+            curr2 = curr2->next;
+        }
+        curr2->next=nullptr;
+       
+    }
+};a
 
-int main() {
+int main()
+{
     CircularLL cll;
 
     cll.insert(10);
@@ -98,6 +152,6 @@ int main() {
     cll.display();
 
     cll.deleteNode(20);
-
+    
     cll.display();
 }
