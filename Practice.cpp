@@ -139,7 +139,7 @@ public:
         curr2->next=nullptr;
        
     }
-};a
+};
 
 int main()
 {
