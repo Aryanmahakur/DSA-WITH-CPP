@@ -1,41 +1,52 @@
 #include <iostream>
+#include <stack>
 using namespace std;
+
 class Node
 {
 public:
-    int data;
+    char data;
     Node *next;
-    Node(int val)
+
+    Node(char val)
     {
         data = val;
         next = nullptr;
     }
 };
+
 class Stack
 {
 public:
     Node *top;
+
     Stack()
     {
         top = nullptr;
-    };
-    void push(int x)
-    {
+    }
 
-        Node *newNode = new Node(x);
+    void push(char ch)
+    {
+        Node *newNode = new Node(ch);
         newNode->next = top;
         top = newNode;
     }
-    void pop()
+
+    char pop()
     {
         if (top == nullptr)
         {
-            return;
+            return '\0';
         }
+
         Node *temp = top;
+        char ch = temp->data;
         top = top->next;
         delete temp;
+
+        return ch;
     }
+
     void peek()
     {
         if (top == nullptr)
@@ -43,54 +54,108 @@ public:
             cout << "Stack Empty\n";
             return;
         }
+
         cout << top->data;
     }
+
     bool isEmpty()
     {
         return top == nullptr;
     }
+
     int size()
     {
-
+        int count = 0;
         Node *curr = top;
-        int index = 0;
+
         while (curr != nullptr)
         {
-            index++;
+            count++;
             curr = curr->next;
         }
-        return index;
+
+        return count;
     }
-    void rev(){
-        Node* curr=top;
+
+    void rev()
+    {
+        stack<char> s1;
+
+        while (!isEmpty())
+        {
+            s1.push(pop());
+        }
+
+        while (!s1.empty())
+        {
+            push(s1.top());
+            s1.pop();
+        }
     }
+
     void display()
     {
         Node *curr = top;
-        while (curr)
+
+        while (curr != nullptr)
         {
             cout << curr->data << " ";
             curr = curr->next;
         }
+        cout << endl;
     }
+    bool check(string c)
+    {
+        stack<char> ch;
+
+        for (char a : c)
+        {
+            if (a == '(' || a == '{' || a == '[')
+            {
+                ch.push(a);
+            }
+            else
+            {
+                if (ch.empty())
+                {
+                    return false;
+                }
+
+                if ((a == ')' && ch.top() != '(') ||
+                    (a == '}' && ch.top() != '{') ||
+                    (a == ']' && ch.top() != '['))
+                {
+                    return false;
+                }
+
+                ch.pop();
+            }
+        }
+
+        return ch.empty();
+    }
+    
 };
+
 int main()
 {
-    Stack st1;
+   
+    Stack st;
 
-    st1.push(10);
-    st1.push(20);
-    st1.push(30);
+    string str = "hello";
 
-    st1.display(); // 30 20 10
+    for (char ch : str)
+    {
+        st.push(ch);
+    }
 
-    cout << "\nSize: " << st1.size();
+    cout << "Stack: ";
+    st.display();
 
-    cout << "\nTop: ";
-    st1.peek();
+    st.rev();
 
-    st1.pop();
+    cout << "After rev(): ";
+    st.display();
 
-    cout << "\nAfter pop: ";
-    st1.display();
+    return 0;
 }

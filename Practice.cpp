@@ -1,157 +1,58 @@
 #include <iostream>
+#include <stack>
 using namespace std;
 
-class Node
-{
-public:
-    int data;
-    Node *next;
+struct ListNode {
+    int val;
+    ListNode* next;
 
-    Node(int val)
-    {
-        data = val;
+    ListNode(int x) {
+        val = x;
         next = nullptr;
     }
 };
 
-class CircularLL
-{
+class Solution {
 public:
-    Node *head = nullptr;
+    void reorderList(ListNode* head) {
+        ListNode* curr = head;
+        stack<int> s1;
+        int index = 0;
 
-    // Insert at end
-    void insert(int val)
-    {
-        Node *newNode = new Node(val);
-
-        if (head == nullptr)
-        {
-            head = newNode;
-            newNode->next = head;
-            return;
-        }
-
-        Node *curr = head;
-        while (curr->next != head)
-        {
+        while (curr != nullptr) {
+            s1.push(curr->val);
+            index++;
             curr = curr->next;
         }
 
-        curr->next = newNode;
-        newNode->next = head;
-    }
+        curr = head;
+        int flag = 0;
 
-    // Display
-    void display()
-    {
-        if (head == nullptr)
-        {
-            cout << "Empty\n";
-            return;
-        }
-
-        Node *curr = head;
-        do
-        {
-            cout << curr->data << " ";
-            curr = curr->next;
-        } while (curr != head);
-
-        cout << endl;
-    }
-
-    // Delete by value
-    void deleteNode(int val)
-    {
-        if (head == nullptr)
-            return;
-
-        Node *curr = head, *prev = nullptr;
-
-        // Head node deletion
-        if (head->data == val)
-        {
-            if (head->next == head)
-            {
-                delete head;
-                head = nullptr;
-                return;
+        for (int i = 0; i < index; i++) {
+            if (flag == 0) {
+                cout << curr->val << " ";
+                curr = curr->next;
+                flag = 1;
             }
-
-            Node *tail = head;
-            while (tail->next != head)
-                tail = tail->next;
-
-            tail->next = head->next;
-            Node *temp = head;
-            head = head->next;
-            delete temp;
-            return;
-        }
-
-        do
-        {
-            prev = curr;
-            curr = curr->next;
-        } while (curr != head && curr->data != val);
-
-        if (curr != head)
-        {
-            prev->next = curr->next;
-            delete curr;
-        }
-    }
-    Node *head1;
-    Node *head2;
-    void split()
-    {
-        Node *fast = head;
-        Node *slow = head;
-        while (fast->next != head && fast->next->next != head)
-        {
-            slow = slow->next;
-            fast = fast->next->next;
-        }
-        Node *curr = head;
-        while (curr != slow)
-        {
-            cout << curr->data << " ";
-            if (head1 == nullptr)
-            {
-                head1 =head;
+            else if (flag == 1) {
+                cout << s1.top() << " ";
+                s1.pop();
+                flag = 0;
             }
-           
-            curr = curr->next;
         }
-        
-        Node *curr2 = slow->next;
-        curr->next=nullptr;
-        while (curr2->next != head)
-        {
-            if (head2 == nullptr)
-            {
-                head2 = slow->next;
-            }
-          
-            cout << curr2->data << " ";
-            curr2 = curr2->next;
-        }
-        curr2->next=nullptr;
-       
     }
 };
 
-int main()
-{
-    CircularLL cll;
+int main() {
+    // Create: 1 -> 2 -> 3 -> 4 -> 5
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    head->next->next->next = new ListNode(4);
+    head->next->next->next->next = new ListNode(5);
 
-    cll.insert(10);
-    cll.insert(20);
-    cll.insert(30);
+    Solution obj;
+    obj.reorderList(head);
 
-    cll.display();
-
-    cll.deleteNode(20);
-    
-    cll.display();
+    return 0;
 }
