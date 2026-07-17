@@ -40,7 +40,7 @@ void BFS(Node* root)
             q.push(current->right);
     }
 }
-int main()s
+int main()
 {
     Node* root = new Node(1);
 
