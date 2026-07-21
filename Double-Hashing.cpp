@@ -31,7 +31,7 @@ public:
         int h1 = hash1(key);
         int h2 = hash2(key);
 
-        int index = h1;
+        int index = h1;f
         int i = 0;
 
         while (table[index] != EMPTY && table[index] != DELETED) {
