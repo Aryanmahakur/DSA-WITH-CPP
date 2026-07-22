@@ -1,6 +1,3 @@
-#include <iostream>
-#include <string>
-using namespace std;
 class TrieNode {
 public:
     TrieNode* children[26];
@@ -65,31 +62,47 @@ public:
 
         return true;
     }
+
+    void erase(string word) {
+        eraseHelper(root, word, 0);
+    }
+
+private:
+
+    bool hasChildren(TrieNode* node) {
+        for (int i = 0; i < 26; i++) {
+            if (node->children[i] != NULL)
+                return true;
+        }
+        return false;
+    }
+
+    bool eraseHelper(TrieNode* node, string &word, int depth) {
+
+        if (node == NULL)
+            return false;
+
+        // Reached end of word
+        if (depth == word.size()) {
+
+            if (!node->isEnd)
+                return false;
+
+            node->isEnd = false;
+
+            return !hasChildren(node);
+        }
+
+        int index = word[depth] - 'a';
+
+        if (eraseHelper(node->children[index], word, depth + 1)) {
+
+            delete node->children[index];
+            node->children[index] = NULL;
+
+            return !node->isEnd && !hasChildren(node);
+        }
+
+        return false;
+    }
 };
-int main() {
-    Trie trie;
-
-    // Insert words
-    trie.insert("cat");
-    trie.insert("car");
-    trie.insert("dog");
-
-    // Search complete words
-    cout << "search(cat): " << trie.search("cat") << endl;   // 1
-    cout << "search(car): " << trie.search("car") << endl;   // 1
-    cout << "search(ca): " << trie.search("ca") << endl;     // 0
-    cout << "search(cap): " << trie.search("cap") << endl;   // 0
-    cout << "search(dog): " << trie.search("dog") << endl;   // 1
-    cout << "search(do): " << trie.search("do") << endl;     // 0
-
-    cout << endl;
-
-    // Check prefixes
-    cout << "startsWith(ca): " << trie.startsWith("ca") << endl;   // 1
-    cout << "startsWith(car): " << trie.startsWith("car") << endl; // 1
-    cout << "startsWith(do): " << trie.startsWith("do") << endl;   // 1
-    cout << "startsWith(da): " << trie.startsWith("da") << endl;   // 0
-    cout << "startsWith(z): " << trie.startsWith("z") << endl;     // 0
-
-    return 0;
-}
