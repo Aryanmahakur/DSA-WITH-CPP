@@ -1,3 +1,6 @@
+#include<iostream>
+using namespace std;
+#include<string>
 class TrieNode {
 public:
     TrieNode* children[26];
