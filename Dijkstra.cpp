@@ -56,7 +56,7 @@ int main()
                 distance[nextNode] = distance[currentNode] + weight;
                 pq.push({distance[nextNode], nextNode});
             }
-        }g
+        }
     }
 
     cout << "Shortest Distance from Source:\n";
