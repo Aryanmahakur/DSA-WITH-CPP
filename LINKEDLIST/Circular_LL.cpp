@@ -65,7 +65,7 @@ public:
             temp = temp->next;
 
         temp->next = newNode;
-        newNode->next = head;
+        newNode->next = head;s
     }
 
     // Display
