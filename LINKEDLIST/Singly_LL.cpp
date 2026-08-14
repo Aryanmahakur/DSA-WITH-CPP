@@ -91,7 +91,7 @@ public:
         Node* temp = head;
 
         while(temp){
-            count++;f
+            count++;
             temp = temp->next;
         }
 
