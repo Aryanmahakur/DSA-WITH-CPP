@@ -133,7 +133,7 @@ public:
             return;
 
         Node* temp = head;
-
+f
         head = head->next;
 
         if(head)
