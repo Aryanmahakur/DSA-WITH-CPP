@@ -41,4 +41,4 @@ int main(){
     preorder(root);
     inorder(root);
     postorder(root);
-}
+}f
