@@ -15,7 +15,7 @@ void preorder(Node* root){
         return;
     }
     cout<<root->data<<endl;
-    preorder(root->left);
+    preorder(root->left);s
     preorder(root->right);
 }
 void inorder(Node* root){
