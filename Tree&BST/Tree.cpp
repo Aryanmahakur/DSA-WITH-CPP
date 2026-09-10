@@ -11,7 +11,7 @@ class Node{
     }
 };
 void preorder(Node* root){
-    if(root==nullptr){a
+    if(root==nullptr){
         return;
     }
     cout<<root->data<<endl;
