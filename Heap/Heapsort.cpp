@@ -36,7 +36,7 @@ void heapSort(vector<int>& arr) {
 
     // Sortinga
     for (int i = n - 1; i > 0; i--) {
-d
+
         // Move maximum to the ends
         swap(arr[0], arr[i]);
 
