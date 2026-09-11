@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-a
+
 class MinHeap
 {
     vector<int> heap;
