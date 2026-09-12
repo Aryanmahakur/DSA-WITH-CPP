@@ -6,7 +6,7 @@ class MinHeap
 {
     vector<int> heap;
 
-    // Heapify Up
+    
     void heapifyUp(int i)
     {
         while (i > 0)
@@ -58,16 +58,13 @@ class MinHeap
     }
 
 public:
-    // INSERTION
+   
     void insert(int value)
     {
         heap.push_back(value);
-
-        // Start from newly inserted element
         heapifyUp(heap.size() - 1);
     }
 
-    // DELETE MINIMUM (ROOT)
     void deleteMin()
     {
 
@@ -120,4 +117,4 @@ int main()
     h.print();
 
     return 0;
-}
+}f
