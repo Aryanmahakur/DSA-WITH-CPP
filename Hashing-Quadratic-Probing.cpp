@@ -55,7 +55,7 @@ public:
 
             if (i == size)
                 break;
-        }aaa
+        }aa
 
         return false;
     }
